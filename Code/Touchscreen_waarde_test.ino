@@ -1,7 +1,6 @@
 #include <stdint.h>
 #include "TouchScreen.h"
 
-
 #define YP A2  
 #define XM A3  
 #define YM A0  
