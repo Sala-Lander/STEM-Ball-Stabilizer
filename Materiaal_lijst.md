@@ -1,0 +1,2 @@
+- MG90 servo (2x)
+- 4-Wire resistive touchscreen
