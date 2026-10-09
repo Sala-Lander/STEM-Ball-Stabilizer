@@ -1,2 +1,2 @@
 - MG90 servo (2x)
-- 4-Wire resistive touchscreen
+- 4-Wire resistive touchscreen (https://www.digikey.be/nl/products/detail/adafruit-industries-llc/1676/7241462)
