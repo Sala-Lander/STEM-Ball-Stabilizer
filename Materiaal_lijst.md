@@ -1,6 +1,6 @@
 - MG90 servo (2x)
 - 4-Wire resistive touchscreen (https://www.gotron.be/resistive-touchscreen-overlay-7-diagonal-165mm-x-105mm-4-wire.html)
-- Touchscreen breakout module (ruwe waarden tochscreen omzetten in x-y)
+- Flexcable naar pins breakout board (https://www.adafruit.com/product/3575)
 - 4 AA batterij houder
 - Breadboard
 - Jumperwires
