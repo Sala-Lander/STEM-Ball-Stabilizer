@@ -1,104 +1,76 @@
-const int PIN_X_PLUS = A0;
-const int PIN_X_MIN  = A1;
-const int PIN_Y_PLUS = A2;
-const int PIN_Y_MIN  = A3;
+#include <TouchScreen.h>
+
+// Bedrading:
+// X+ = A0
+// X- = A1
+// Y+ = A2
+// Y- = A3
+
+#define XP A0
+#define XM A1
+#define YP A2
+#define YM A3
+
+TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+
+const int MIN_DRUK = 10;
 
 int minX = 1023;
 int maxX = 0;
 int minY = 1023;
 int maxY = 0;
 
-void maakPinnenVrij() {
-  pinMode(PIN_X_PLUS, INPUT);
-  pinMode(PIN_X_MIN, INPUT);
-  pinMode(PIN_Y_PLUS, INPUT);
-  pinMode(PIN_Y_MIN, INPUT);
-}
-
-bool isAangeraakt() {
-  pinMode(PIN_X_PLUS, OUTPUT);
-  digitalWrite(PIN_X_PLUS, LOW);
-
-  pinMode(PIN_X_MIN, INPUT);
-  pinMode(PIN_Y_PLUS, INPUT_PULLUP);
-  pinMode(PIN_Y_MIN, INPUT);
-
-  delayMicroseconds(20);
-  bool aangeraakt = (digitalRead(PIN_Y_PLUS) == LOW);
-
-  maakPinnenVrij();
-  return aangeraakt;
-}
-
-int leesRuweX() {
-  pinMode(PIN_X_PLUS, OUTPUT);
-  digitalWrite(PIN_X_PLUS, HIGH);
-  pinMode(PIN_X_MIN, OUTPUT);
-  digitalWrite(PIN_X_MIN, LOW);
-
-  pinMode(PIN_Y_PLUS, INPUT);
-  pinMode(PIN_Y_MIN, INPUT);
-
-  delayMicroseconds(20);
-  int waarde = analogRead(PIN_Y_PLUS);
-
-  maakPinnenVrij();
-  return waarde;
-}
-
-int leesRuweY() {
-  pinMode(PIN_Y_PLUS, OUTPUT);
-  digitalWrite(PIN_Y_PLUS, HIGH);
-  pinMode(PIN_Y_MIN, OUTPUT);
-  digitalWrite(PIN_Y_MIN, LOW);
-
-  pinMode(PIN_X_PLUS, INPUT);
-  pinMode(PIN_X_MIN, INPUT);
-
-  delayMicroseconds(20);
-  int waarde = analogRead(PIN_X_PLUS);
-
-  maakPinnenVrij();
-  return waarde;
-}
-
 void setup() {
   Serial.begin(115200);
-  maakPinnenVrij();
 
-  Serial.println("Kalibratie van het 4-draads touchscreen");
-  Serial.println("Aansluiting: X+ A0, X- A1, Y+ A2, Y- A3");
-  Serial.println("Druk langs alle randen en hoeken van het scherm.");
-  Serial.println("De waarden lopen van 0 tot 1023.");
+  pinMode(YP, OUTPUT);
+  pinMode(XM, OUTPUT);
+
+  Serial.println("Touchscreen-kalibratie gestart.");
+  Serial.println("Raak de uiterste randen van het scherm aan.");
+  Serial.println("Beweeg je vinger langs alle vier de kanten.");
   Serial.println();
 }
 
 void loop() {
-  if (isAangeraakt()) {
-    int x = leesRuweX();
-    int y = leesRuweY();
+  TSPoint p = ts.getPoint();
 
-    if (x < minX) minX = x;
-    if (x > maxX) maxX = x;
-    if (y < minY) minY = y;
-    if (y > maxY) maxY = y;
+  pinMode(YP, OUTPUT);
+  pinMode(XM, OUTPUT);
 
-    Serial.print("x=");
-    Serial.print(x);
-    Serial.print(" y=");
-    Serial.print(y);
+  digitalWrite(YP, LOW);
+  digitalWrite(XM, LOW);
 
-    Serial.print(" | minX=");
+  if (p.z >= MIN_DRUK) {
+    if (p.x < minX) minX = p.x;
+    if (p.x > maxX) maxX = p.x;
+
+    if (p.y < minY) minY = p.y;
+    if (p.y > maxY) maxY = p.y;
+
+    Serial.print("X: ");
+    Serial.print(p.x);
+
+    Serial.print(" | Y: ");
+    Serial.print(p.y);
+
+    Serial.print(" | Druk: ");
+    Serial.println(p.z);
+
+    Serial.print("X_MIN=");
     Serial.print(minX);
-    Serial.print(" maxX=");
+
+    Serial.print(" | X_MAX=");
     Serial.print(maxX);
-    Serial.print(" minY=");
+
+    Serial.print(" | Y_MIN=");
     Serial.print(minY);
-    Serial.print(" maxY=");
+
+    Serial.print(" | Y_MAX=");
     Serial.println(maxY);
-  } else {
-    Serial.println("geen aanraking");
+
+    Serial.println();
   }
 
-  delay(100);
+  delay(20);
 }
