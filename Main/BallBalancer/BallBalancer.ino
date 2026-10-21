@@ -37,7 +37,7 @@ float doelY = 0;
 
 float vorigePositie[2];
 
-float integraal[2]; // De opgetelde fout over de tijd (per as).
+float integraal[2];
 
 bool balAanwezig = false;
 
