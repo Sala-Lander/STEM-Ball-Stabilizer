@@ -10,7 +10,7 @@ Het project omvat:
 - **Mechanisch ontwerp:** onderdelen ontwerpen en 3D-printen.
 - **Elektronica:** servo's en touchscreen aansluiten.
 - **Programmering:** touchscreen uitlezen en de beweging van het platform berekenen.
-- **Regeling:** inverse kinematica onderzoeken om de gewenste platformbeweging te bepalen.
+- **Regeling:** inverse kinematica en PID controller gebruiken om het platform de gewenste beweging te geven.
 
 ## Hardware
 
@@ -20,19 +20,6 @@ Het project omvat:
 - 4× AA-batterijhouder
 - Breadboard en jumper wires
 - PLA-filament voor 3D-geprinte onderdelen
-
-## Projectstructuur
-
-- `Code/` — codebestanden
-- `HTML_Voorstellingen/` — HTML-presentaties
-- `.ZIP/` — projectbestanden en archiefmateriaal
-- `Materiaal_lijst.md` — overzicht van de benodigde onderdelen
-- `To-do list.md` — openstaande taken
-- `cad-design.png` — afbeelding van het CAD-ontwerp
-
-## Status
-
-/
 
 ## Team
 
